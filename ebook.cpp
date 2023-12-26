@@ -9,7 +9,7 @@
 
 class EBookManager {
 public:
-    EBookManager(): 
+    explicit EBookManager(): 
         users(users_cnt+1, -1), all_pages(pages_cnt, 0)
     {}
     
