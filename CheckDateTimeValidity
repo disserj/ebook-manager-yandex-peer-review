@@ -1,6 +1,7 @@
 #include <array>
 
-namespace check{
+namespace check
+{
 void CheckYear(const DateTime date_time){
     if (date_time.year < 1 || date_time.year > 9999) {
         date_time.year < 1?
@@ -41,8 +42,18 @@ void CheckMinute(const DateTime date_time){
                                               throw domain_error("minute is too big"s);
     }
 }
+
 }//exit namespace check
-void CheckSecond(const DateTime date_time){
+
+/********************************************************************************************
+    (+) изменил сигнатуру CheckDateTimeValidity, не вижу смысла передавать в ф-ю
+        структуру из 6 полей int по ссылке
+    (+) изменил имя параметра, dt - неинформативно
+    (+) распределил проверки полей в отдельные ф-и, заключил эти ф-и в namespace 
+    (+) использовал контейнер стандартной библиотеки std::array вместо встроенного массива
+********************************************************************************************/
+
+void CheckDateTimeValidity(const DateTime date_time){
     check::CheckYear(date_time);
     check::CheckMonth(date_time);
     check::CheckDay(date_time);
