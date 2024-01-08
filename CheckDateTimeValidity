@@ -42,6 +42,13 @@ void CheckMinute(const DateTime date_time){
                                               throw domain_error("minute is too big"s);
     }
 }
+void CheckSecond(const DateTime date_time){
+    if (date_time.second < 1 || date_time.second > 59) {
+        date_time.second < 1?
+                    throw domain_error("second is too small"s):
+                                              throw domain_error("second is too big"s);
+    }
+}
 
 }//exit namespace check
 
