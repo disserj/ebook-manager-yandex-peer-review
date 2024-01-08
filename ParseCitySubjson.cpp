@@ -107,7 +107,7 @@ void ParseCountryJson(vector<Country>& countries, vector<City>& cities, const Js
 /**********************************************************************************************
 (+) оставил изначально данную в условии ParseCitySubjson, которая сейчас принимает в качестве 
             параметра объект Country по константной ссылке                                  
-**********************************************************************************************/
+*********************************************************************************************/  
 
 void ParseCitySubjson(vector<City>& cities, const Json& json, const Country& country) {
     for (const auto& city_json : json.AsList()) {
