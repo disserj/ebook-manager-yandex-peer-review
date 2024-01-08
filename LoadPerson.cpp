@@ -18,6 +18,9 @@ struct PersonParams {
 vector<Person> LoadPersons(DBParams&& db_params, PersonParams person_params) { {
     DBConnector connector(db_allow_exceptions, db_log_level);
     DBHandler db;
+
+    /* возможно, этот блок стоит вынести в отдельную ф-ю для удобства тестирования */
+    //-------------------------------------------------------------------------------------     
     if (db_name.starts_with("tmp."s)) {
         db = connector.ConnectTmp(db_name, db_connection_timeout);
     } else {
@@ -26,7 +29,8 @@ vector<Person> LoadPersons(DBParams&& db_params, PersonParams person_params) { {
     if (!db_allow_exceptions && !db.IsOK()) {
         return {};
     }
-
+    //-------------------------------------------------------------------------------------
+         
     ostringstream query_str;
     query_str << "from Persons "s
               << "select Name, Age "s
