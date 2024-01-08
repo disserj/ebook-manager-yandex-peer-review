@@ -17,7 +17,7 @@ void CheckMonth(const DateTime date_time){
     }
 }
 void CheckDay(const DateTime date_time){
-    const bool is_leap_year = (dt.year % 4 == 0) && !(dt.year % 100 == 0 && dt.year % 400 != 0);
+    const bool is_leap_year = (date_time.year % 4 == 0) && !(date_time.year % 100 == 0 && date_time.year % 400 != 0);
     std::array<int,12> month_lengths= {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     if(is_leap_year) ++ month_lengths[1];
