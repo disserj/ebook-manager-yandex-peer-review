@@ -1,21 +1,24 @@
 #include <array>
+#include <string_view>
+
+/********************************************************************************************
+    (+) изменил сигнатуру CheckDateTimeValidity, не вижу смысла передавать в ф-ю
+        структуру из 6 полей int по ссылке
+    (+) изменил имя параметра, dt - неинформативно
+    (+) обобщил проверки полей, кроме проверки дня, в одну ф-ю, заключил эти ф-и в namespace 
+    (+) использовал контейнер стандартной библиотеки std::array вместо встроенного массива
+********************************************************************************************/
 
 namespace check
 {
-void CheckYear(const DateTime date_time){
-    if (date_time.year < 1 || date_time.year > 9999) {
-        date_time.year < 1?
-                    throw domain_error("year is too small"s):
-                                              throw domain_error("year is too big"s);
+void CheckDateOrTime(int date_or_time, int limit, std::string_view pref){
+    if (date_or_time < 1 || date_or_time > limit) {
+        date_or_time < 1?
+                    throw domain_error((std::string)pref + " is too small"s):
+                                              throw domain_error((std::string)pref + " is too big"s);
     }
 }
-void CheckMonth(const DateTime date_time){
-    if (date_time.month < 1 || date_time.month > 12) {
-        date_time.month < 1?
-                    throw domain_error("month is too small"s):
-                                              throw domain_error("month is too big"s);
-    }
-}
+
 void CheckDay(const DateTime date_time){
     const bool is_leap_year = (date_time.year % 4 == 0) && !(date_time.year % 100 == 0 && date_time.year % 400 != 0);
     std::array<int,12> month_lengths= {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -28,43 +31,20 @@ void CheckDay(const DateTime date_time){
                                               throw domain_error("day is too big"s);
     }
 }
-void CheckHour(const DateTime date_time){
-    if (date_time.hour < 1 || date_time.hour > 23) {
-        date_time.hour < 1?
-                    throw domain_error("hour is too small"s):
-                                              throw domain_error("hour is too big"s);
-    }
-}
-void CheckMinute(const DateTime date_time){
-    if (date_time.minute < 1 || date_time.minute > 59) {
-        date_time.minute < 1?
-                    throw domain_error("minute is too small"s):
-                                              throw domain_error("minute is too big"s);
-    }
-}
-void CheckSecond(const DateTime date_time){
-    if (date_time.second < 1 || date_time.second > 59) {
-        date_time.second < 1?
-                    throw domain_error("second is too small"s):
-                                              throw domain_error("second is too big"s);
-    }
-}
 
 }//exit namespace check
-
-/********************************************************************************************
-    (+) изменил сигнатуру CheckDateTimeValidity, не вижу смысла передавать в ф-ю
-        структуру из 6 полей int по ссылке
-    (+) изменил имя параметра, dt - неинформативно
-    (+) распределил проверки полей в отдельные ф-и, заключил эти ф-и в namespace 
-    (+) использовал контейнер стандартной библиотеки std::array вместо встроенного массива
-********************************************************************************************/
+enum Values{
+    year = 9999;
+    month = 12;
+    hour = 23;
+    min_or_sec = 59;
+};
 
 void CheckDateTimeValidity(const DateTime date_time){
-    check::CheckYear(date_time);
-    check::CheckMonth(date_time);
+    check::CheckDateOrTime(date_time.year, Values::year, "year");
+    check::CheckDateOrTime(date_time.month, Values::month,"month");
     check::CheckDay(date_time);
-    check::CheckHour(date_time);
-    check::CheckMinute(date_time);
-    check::CheckSecond(date_time);
+    check::CheckDateOrTime(date_time.hour, Values::hour, "hour");
+    check::CheckDateOrTime(date_time.minute, Values::min_or_sec, "minute");
+    check::CheckDateOrTime(date_time.second, Values::min_or_sec, "second");
 }
